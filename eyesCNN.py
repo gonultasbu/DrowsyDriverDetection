@@ -49,6 +49,7 @@ batch_size = 30
 nb_classes = 1
 epochs = 12
 
+#reshape the training and test data according to old keras syntax, this can be improved
 X_train = train_dataset
 X_train = X_train.reshape((X_train.shape[0], X_train.shape[3]) + X_train.shape[1:3])
 Y_train = train_labels
@@ -105,6 +106,5 @@ print('Test accuracy:', score[1])
 
 #plot_model(model, to_file='model.png',show_shapes=True)
 
-#im = cv2.imread('test.jpg')
 
-#model.predict(im, batch_size=1, verbose=1, steps=None)
+model.save('DDD_model.h5')

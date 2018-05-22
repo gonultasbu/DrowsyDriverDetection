@@ -16,6 +16,7 @@ def generate_dataset():
         for filename in os.listdir(dir):
             if filename.endswith('.jpg'):
                 im = cv2.imread(dir + '/' + filename)
+                #Convert 3 channels grayscale img to single channel grayscale img.
                 im = np.dot(np.array(im, dtype='float32'), [[0.2989], [0.5870], [0.1140]]) / 255
                 dataset[i, :, :, :] = im[:, :, :]
                 i += 1
@@ -30,6 +31,7 @@ def generate_dataset_closed():
         for filename in os.listdir(dir):
             if filename.endswith('.jpg'):
                 im = cv2.imread(dir + '/' + filename)
+                # Convert 3 channels grayscale img to single channel grayscale img.
                 im = np.dot(np.array(im, dtype='float32'), [[0.2989], [0.5870], [0.1140]]) / 255
                 dataset[i, :, :, :] = im[:, :, :]
                 i += 1

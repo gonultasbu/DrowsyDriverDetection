@@ -10,6 +10,7 @@ model = load_model('DDD_model.h5')
 
 def eval_func(dataset_file,processed_file):
 
+
     #if cannot read the file, print error
     try:
         datasetFile = open(dataset_file,'r')
@@ -84,6 +85,10 @@ def read_and_predict(image_file):
 
 
 def traverse_and_call(input_dir):
+
+    open_eyes_frame_bias=12
+    CNN_threshold=0.50
+
     sleepy_success_counter = 0.0
     sleepy_success_accumulator = 0.0
 
@@ -123,9 +128,9 @@ def traverse_and_call(input_dir):
                     y2=float(y2[0])
 
                     #do not forget to use x marked frames
-                    if (y1 > 0.55 or y2 > 0.55):
+                    if (y1 > CNN_threshold or y2 > CNN_threshold):
                         prediction_storage[frameno]=0
-                        closed_frame_counter=closed_frame_counter-6
+                        closed_frame_counter=closed_frame_counter-open_eyes_frame_bias
                         #print(prediction_storage[frameno])
                     else:
                         if (closed_frame_counter<12):
@@ -151,9 +156,9 @@ def traverse_and_call(input_dir):
                     y2=float(y2[0])
 
                     #do not forget to use x marked frames
-                    if (y1 > 0.55 or y2 > 0.55):
+                    if (y1 > CNN_threshold or y2 > CNN_threshold):
                         prediction_storage[frameno]=0
-                        closed_frame_counter=closed_frame_counter-6
+                        closed_frame_counter=closed_frame_counter-open_eyes_frame_bias
 
                     else:
                         if (closed_frame_counter<12):
@@ -180,7 +185,7 @@ def traverse_and_call(input_dir):
             output_file.close()
             print ("SUCCESS RATE = " + str(1 - (int(np.sum(prediction_storage))/
                                                         int(np.size(prediction_storage)))))
-            
+
             nonsleepy_success_accumulator = nonsleepy_success_accumulator + float(1 - (int(np.sum(prediction_storage))/
                                                         int(np.size(prediction_storage))))
         elif (s_flag):

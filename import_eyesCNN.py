@@ -86,8 +86,9 @@ def read_and_predict(image_file):
 
 def traverse_and_call(input_dir):
 
-    open_eyes_frame_bias=12
+    open_eyes_frame_bias=4
     CNN_threshold=0.50
+    closed_eye_frame_threshold=12
 
     sleepy_success_counter = 0.0
     sleepy_success_accumulator = 0.0
@@ -130,10 +131,10 @@ def traverse_and_call(input_dir):
                     #do not forget to use x marked frames
                     if (y1 > CNN_threshold or y2 > CNN_threshold):
                         prediction_storage[frameno]=0
-                        closed_frame_counter=closed_frame_counter-open_eyes_frame_bias
+                        closed_frame_counter=0
                         #print(prediction_storage[frameno])
                     else:
-                        if (closed_frame_counter<12):
+                        if (closed_frame_counter<closed_eye_frame_threshold):
                             prediction_storage[frameno]=0
                             closed_frame_counter=closed_frame_counter+1
                             #print(prediction_storage[frameno])
@@ -158,10 +159,10 @@ def traverse_and_call(input_dir):
                     #do not forget to use x marked frames
                     if (y1 > CNN_threshold or y2 > CNN_threshold):
                         prediction_storage[frameno]=0
-                        closed_frame_counter=closed_frame_counter-open_eyes_frame_bias
+                        closed_frame_counter=0
 
                     else:
-                        if (closed_frame_counter<12):
+                        if (closed_frame_counter<closed_eye_frame_threshold):
                             prediction_storage[frameno]=0
                             closed_frame_counter=closed_frame_counter+1
 

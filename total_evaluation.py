@@ -31,8 +31,10 @@ def evaluate_everything(input_dir):
             else:
                 pass
 
-
-    print ("TOTAL NONSLEEPY SUCCESS = " + str(nonsleepy_success_accumulator / nonsleepy_success_counter))
+    result_file.write ("TOTAL NONSLEEPY SUCCESS RATE = " + str(nonsleepy_success_accumulator / nonsleepy_success_counter))
+    result_file.write ("\n" + "TOTAL SLEEPY SUCCESS RATE = " + str(sleepy_success_accumulator / sleepy_success_counter))
+    print ("TOTAL NONSLEEPY SUCCESS RATE = " + str(nonsleepy_success_accumulator / nonsleepy_success_counter))
     print ("TOTAL SLEEPY SUCCESS RATE = " + str(sleepy_success_accumulator / sleepy_success_counter))
 
+    result_file.close()
 evaluate_everything('C:\\Users\\Mert\\Dropbox\\ITU\\2017 BITIRME\\DATASETS\\COMPOUND_DATASET')

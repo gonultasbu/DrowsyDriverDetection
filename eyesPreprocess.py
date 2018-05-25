@@ -10,7 +10,7 @@ dirs2 = ['Dataset/closedLeftEyes', 'Dataset/closedRightEyes']
 
 
 def generate_dataset():
-    dataset = np.ndarray([1231 * 2, 24, 24, 1], dtype='float32')
+    dataset = np.ndarray([1311 * 2, 24, 24, 1], dtype='float32')
     i = 0
     for dir in dirs:
         for filename in os.listdir(dir):
@@ -25,7 +25,7 @@ def generate_dataset():
 
 
 def generate_dataset_closed():
-    dataset = np.ndarray([1192 * 2, 24, 24, 1], dtype='float32')
+    dataset = np.ndarray([1272 * 2, 24, 24, 1], dtype='float32')
     i = 0
     for dir in dirs2:
         for filename in os.listdir(dir):

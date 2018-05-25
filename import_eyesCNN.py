@@ -73,9 +73,6 @@ def eval_func(dataset_file,processed_file):
 
 
 
-
-
-
 def read_and_predict(image_file):
     im = cv2.imread(image_file)
     im = np.dot(np.array(im, dtype='float32'), [[0.2989], [0.5870], [0.1140]]) / 255
@@ -121,6 +118,12 @@ def traverse_and_call(input_dir):
                     name_list = name.split('_')
                     pre_frameno_list = name_list[1].split('.')
                     frameno_list = pre_frameno_list[0].split('x')
+
+                    if (pre_frameno_list[0].endswith("x")):
+                        x_flag=1
+                    else:
+                        x_flag=0
+
                     frameno=int(frameno_list[0])-1
 
                     y1=read_and_predict(os.path.join(root, name))
@@ -128,26 +131,43 @@ def traverse_and_call(input_dir):
                     y1=float(y1[0])
                     y2=float(y2[0])
 
-                    #do not forget to use x marked frames
+
                     if (y1 > CNN_threshold or y2 > CNN_threshold):
                         prediction_storage[frameno]=0
-                        closed_frame_counter=0
-                        #print(prediction_storage[frameno])
+                        if closed_frame_counter > 0:
+                            closed_frame_counter=closed_frame_counter-open_eyes_frame_bias
+                        else:
+                            closed_frame_counter=0.0
+
+                    elif(x_flag):
+                        if (closed_frame_counter<closed_eye_frame_threshold):
+                            prediction_storage[frameno]=0
+                            closed_frame_counter=closed_frame_counter+0.1
+
+                        else:
+                            prediction_storage[frameno]=1
+                            closed_frame_counter=closed_frame_counter+0.1
+
                     else:
                         if (closed_frame_counter<closed_eye_frame_threshold):
                             prediction_storage[frameno]=0
                             closed_frame_counter=closed_frame_counter+1
-                            #print(prediction_storage[frameno])
                         else:
                             prediction_storage[frameno]=1
                             closed_frame_counter=closed_frame_counter+1
                             #print(prediction_storage[frameno])
-
                 elif (root.endswith('sleepyCombination_eyes')):
 
                     name_list = name.split('_')
                     pre_frameno_list = name_list[1].split('.')
                     frameno_list = pre_frameno_list[0].split('x')
+
+                    if (pre_frameno_list[0].endswith("x")):
+                        x_flag=1
+                    else:
+                        x_flag=0
+
+
                     frameno=int(frameno_list[0])-1
 
 
@@ -156,10 +176,22 @@ def traverse_and_call(input_dir):
                     y1=float(y1[0])
                     y2=float(y2[0])
 
-                    #do not forget to use x marked frames
+
                     if (y1 > CNN_threshold or y2 > CNN_threshold):
                         prediction_storage[frameno]=0
-                        closed_frame_counter=0
+                        if closed_frame_counter > 0:
+                            closed_frame_counter=closed_frame_counter-open_eyes_frame_bias
+                        else:
+                            closed_frame_counter=0.0
+
+                    elif(x_flag):
+                        if (closed_frame_counter<closed_eye_frame_threshold):
+                            prediction_storage[frameno]=0
+                            closed_frame_counter=closed_frame_counter+0.1
+
+                        else:
+                            prediction_storage[frameno]=1
+                            closed_frame_counter=closed_frame_counter+0.1
 
                     else:
                         if (closed_frame_counter<closed_eye_frame_threshold):
